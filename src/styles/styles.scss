@@ -43,7 +43,7 @@ body {
         font-weight: 300;
     }
     & #player-1-total-score,
-    & #player-1-total-score {
+    & #player-2-total-score {
         font-weight: 300;
     }
     & #player-1-round-score,
@@ -123,15 +123,47 @@ body {
     }
 }
 
-.new-game {
+.checkboxes {
+    top: 5%;
+    left: 40%;
+}
+
+input[type="radio"] {
+    margin: 0 10px;
+    transition: all 0.3s ease;
+    & + span {
+        display: inline-block;
+        width: 50px;
+    }
+    &:checked + span {
+        font-weight: 600;
+    }
+}
+
+label {
+    font-family: Lato;
+    margin: 0 10px;
+    font-size: 18px;
+    transition: all 0.3s ease;
+    &:hover {
+        // font-weight: 600;
+        margin-right: 20px;
+    }
+    & input[type="radio"]:hover {
+        margin: 0 5px;
+        // margin-right: 5px;
+    }
+}
+
+#new-game {
     top: 10%;
 }
 
-.roll-dice {
+#roll-dice {
     bottom: 25%;
 }
 
-.hold {
+#hold {
     bottom: 15%;
     left: 44%;
 }

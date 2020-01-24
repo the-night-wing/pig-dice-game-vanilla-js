@@ -8,3 +8,31 @@ GAME RULES:
 - The first player to reach 100 points on GLOBAL score wins the game
 
 */
+
+const playerOneName_p = document.getElementById("player-1-name");
+const playerTwoName_p = document.getElementById("player-2-name");
+
+const playerOnePanel_div = document.querySelector(".player-1-panel");
+const playerTwoPanel_div = document.querySelector(".player-2-panel");
+
+const playerOneTotalScore_div = document.getElementById("player-1-total-score");
+const playerTwoTotalScore_div = document.getElementById("player-2-total-score");
+
+const playerOneRoundScore_div = document.getElementById("player-1-round-score");
+const playerTwoRoundScore_div = document.getElementById("player-2-round-score");
+
+const dice_img = document.getElementById("dice");
+const newGame_but = document.getElementById("new-game");
+const rollDice_but = document.getElementById("roll-dice");
+const hold_but = document.getElementById("hold");
+
+const pickFriend_radio = document.getElementById("pick-friend");
+const pickAI_radio = document.getElementById("pick-ai");
+
+pickAI_radio.addEventListener("click", () => {
+    playerTwoName_p.innerHTML = "AI";
+});
+
+pickFriend_radio.addEventListener("click", () => {
+    playerTwoName_p.innerHTML = "PLAYER 2";
+});

@@ -21,8 +21,8 @@
                 <div id="player-1-round-score">10</div>
             </div>
         </div>
-        <div class="player-2-panel">
-            <p id="player-2-name">PLAYER 2</p>
+        <div class="player-2-panel active">
+            <p id="player-2-name">AI</p>
             <div id="player-2-total-score">44</div>
             <div class="player-2-round-box">
                 <div>ROUND</div>
@@ -31,9 +31,13 @@
 
         </div>
         <img src="./img/dice-5.png" alt="Dice" id="dice" width="100px" class="dice absolute">
-        <button class="btn new-game absolute"><i class="ion-ios-plus-outline"></i>NEW GAME</button>
-        <button class="btn roll-dice absolute"><i class="ion-ios-loop"></i>ROLL DICE</button>
-        <button class="btn hold absolute"><i class="ion-ios-download-outline"></i>HOLD</button>
+        <div class="checkboxes absolute">
+            <label><input type="radio" id="pick-friend" name="FriendOrPlayer"><span>Friend</span></label>
+            <label><input type="radio" id="pick-ai" name="FriendOrPlayer" checked><span>AI</span></label>
+        </div>
+        <button class="btn absolute" id="new-game"><i class="ion-ios-plus-outline"></i>NEW GAME</button>
+        <button class="btn absolute" id="roll-dice"><i class="ion-ios-loop"></i>ROLL DICE</button>
+        <button class="btn absolute" id="hold"><i class="ion-ios-download-outline"></i>HOLD</button>
     </div>
 </body>
 <script src="./app.js"></script>
