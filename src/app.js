@@ -94,33 +94,59 @@ const passTurn = () => {
     }`;
 };
 
+const updateRoundPointsDivs = () => {
+    if (playerOneTurn) {
+        playerOneRoundScore_div.innerHTML = playerOneRoundScore;
+    } else {
+        playerTwoRoundScore_div.innerHTML = playerTwoRoundScore;
+    }
+};
+
+const updateTotalPointsDivs = () => {
+    if (playerOneTurn) {
+        playerOneTotalScore_div.innerHTML = playerOneTotalScore;
+    } else {
+        playerTwoTotalScore_div.innerHTML = playerTwoTotalScore;
+    }
+};
+
+const resetRoundPoints = () => {
+    if (playerOneTurn) {
+        playerOneRoundScore = 0;
+    } else {
+        playerTwoRoundScore = 0;
+    }
+};
+
+const addRoundPoints = dicePoints => {
+    if (playerOneTurn) {
+        playerOneRoundScore += dicePoints;
+    } else {
+        playerTwoRoundScore += dicePoints;
+    }
+};
+
+const addTotalPoints = () => {
+    if (playerOneTurn) {
+        playerOneTotalScore += playerOneRoundScore;
+    } else {
+        playerTwoTotalScore += playerTwoRoundScore;
+    }
+};
+
 const holdPoints = () => {
     if (playerOneTurn) {
         playerOneTotalScore += playerOneRoundScore;
     } else {
         playerTwoTotalScore += playerTwoRoundScore;
     }
-
+    resetRoundPoints();
+    updateRoundPointsDivs();
+    addTotalPoints();
+    updateTotalPointsDivs();
     passTurn();
-    rollDiceAnimations();
+    // rollDiceAnimations();
 };
-
-const addRoundPoints = (roundPoints) => {
-    if(playerOneTurn){
-        playerOneRoundScore += roundPoints
-    }else{
-        playerTwoRoundScore += roundPoints
-    }
-} 
-
-const resetRoundPoints = () => {
-    if(playerOneTurn){
-        playerOneRoundScore = 0
-        playerOneRoundScore_div
-    }else{
-        playerTwoRoundScore = 0
-    }
-}
 
 const generateRandomDice = () => {
     const randomNumber = Math.floor(Math.random() * 6);
@@ -149,10 +175,13 @@ const rollDice = () => {
             clearInterval(intervalID);
             const randomDice = generateRandomDice();
 
-            if(randomDice === 1){
-                resetRoundPoints()
-            }else{
-                addRoundPoints(randomDice)
+            if (randomDice === 1) {
+                resetRoundPoints();
+                updateRoundPointsDivs();
+                passTurn();
+            } else {
+                addRoundPoints(randomDice);
+                updateRoundPointsDivs();
             }
         }
     }, timeout);
