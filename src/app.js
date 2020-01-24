@@ -31,6 +31,7 @@ const playerTwoRoundScore_div = document.getElementById("player-2-round-score");
 
 const dice_img = document.getElementById("dice");
 const newGame_but = document.getElementById("new-game");
+const stopGame_but = document.getElementById("stop-game");
 const rollDice_but = document.getElementById("roll-dice");
 const hold_but = document.getElementById("hold");
 
@@ -68,7 +69,7 @@ const resetScores = () => {
     playerTwoTotalScore_div.innerHTML = 0;
 };
 
-const activeGameButtons = () => {
+const onOffGameButtons = () => {
     hold_but.disabled = !hold_but.disabled;
     rollDice_but.disabled = !rollDice_but.disabled;
 };
@@ -77,10 +78,32 @@ const startNewGame = () => {
     gameIsInProgress = !gameIsInProgress;
     onOffSidePicking();
     resetScores();
-    activeGameButtons();
+    onOffGameButtons();
     playerOnePanel_div.classList = "player-1-panel active";
     playerTwoPanel_div.classList = "player-2-panel";
     playerOneTurn = true;
+    // newGame_but.children[1].innerHTML = "STOP";
+    newGame_but.classList = newGame_but.classList + " hide";
+    // console.log(stopGame_but.classList[0]);
+    // stopGame_but.classList.pop();
+    const hideIndex = stopGame_but.classList.value.indexOf(" hide");
+    stopGame_but.classList.value = stopGame_but.classList.value.substring(
+        0,
+        hideIndex
+    );
+};
+
+const stopGame = () => {
+    gameIsInProgress = !gameIsInProgress;
+    onOffSidePicking();
+    resetScores();
+    onOffGameButtons();
+    stopGame_but.classList = stopGame_but.classList + " hide";
+    const hideIndex = newGame_but.classList.value.indexOf(" hide");
+    newGame_but.classList.value = newGame_but.classList.value.substring(
+        0,
+        hideIndex
+    );
 };
 
 const passTurn = () => {
@@ -164,7 +187,16 @@ const rollDiceAnimations = () => {
     // window.requestAnimationFrame
 };
 
+let clickDisabled = false;
+
 const rollDice = () => {
+    if (clickDisabled || !gameIsInProgress) {
+        return 1;
+    }
+    console.log(clickDisabled + " start");
+
+    clickDisabled = true;
+
     const timeout = 100;
     const start = Date.now();
 
@@ -183,6 +215,8 @@ const rollDice = () => {
                 addRoundPoints(randomDice);
                 updateRoundPointsDivs();
             }
+            console.log(clickDisabled + " end");
+            clickDisabled = false;
         }
     }, timeout);
 
@@ -201,6 +235,9 @@ const rollDice = () => {
 
 newGame_but.addEventListener("click", startNewGame);
 
+stopGame_but.addEventListener("click", stopGame);
+
 hold_but.addEventListener("click", holdPoints);
 
 rollDice_but.addEventListener("click", rollDice);
+dice_img.addEventListener("click", rollDice);
