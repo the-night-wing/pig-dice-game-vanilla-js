@@ -98,6 +98,7 @@ const stopGame = () => {
     onOffSidePicking();
     resetScores();
     onOffGameButtons();
+    // playerOneTurn = true;
     stopGame_but.classList = stopGame_but.classList + " hide";
     const hideIndex = newGame_but.classList.value.indexOf(" hide");
     newGame_but.classList.value = newGame_but.classList.value.substring(
@@ -115,6 +116,12 @@ const passTurn = () => {
     playerTwoPanel_div.classList = `player-2-panel ${
         !playerOneTurn ? " active" : ""
     }`;
+
+    if (pickAI_radio.checked && !playerOneTurn) {
+        // ai_Turn(0);
+        aiTurn(1);
+    }
+    // console.log(pickAI_radio.checked);
 };
 
 const updateRoundPointsDivs = () => {
@@ -179,46 +186,115 @@ const generateRandomDice = () => {
 
 let diceCounter = 0;
 
-const rollDiceAnimations = () => {
+const rollDiceAnimation = () => {
     dice_img.src = dices[diceCounter];
 
     diceCounter = diceCounter === 5 ? 0 : ++diceCounter;
-    console.log(diceCounter);
+    // console.log(diceCounter);
     // window.requestAnimationFrame
 };
 
 let clickDisabled = false;
 
-const rollDice = () => {
-    if (clickDisabled || !gameIsInProgress) {
-        return 1;
-    }
-    console.log(clickDisabled + " start");
-
+const disableRollClick = () => {
     clickDisabled = true;
+};
 
+const enableRollClick = () => {
+    clickDisabled = false;
+};
+// TODO:    Firstly run one iteration
+// TODO:    then Run another, till 6 of them
+// TODO:
+// TODO:
+// TODO:    Make only one round score variable
+// TODO:    Make an array with scores instead of variables
+// TODO:    Access that array with number of active player
+// TODO:
+// TODO:    Instead of if make
+// TODO:
+// TODO:    classlist.togglt
+// TODO:
+
+const throwDiceAnimations = () => {
     const timeout = 100;
     const start = Date.now();
 
-    const intervalID = setInterval(() => {
-        if ((Date.now() - start) / 1000 < (timeout * 6) / 1000) {
-            rollDiceAnimations();
-        } else {
-            clearInterval(intervalID);
-            const randomDice = generateRandomDice();
-
-            if (randomDice === 1) {
-                resetRoundPoints();
-                updateRoundPointsDivs();
-                passTurn();
+    return new Promise((resolve, reject) => {
+        const intervalID = setInterval(() => {
+            if ((Date.now() - start) / 1000 < (timeout * 6) / 1000) {
+                rollDiceAnimation();
             } else {
-                addRoundPoints(randomDice);
-                updateRoundPointsDivs();
+                clearInterval(intervalID);
+                resolve();
             }
-            console.log(clickDisabled + " end");
-            clickDisabled = false;
-        }
-    }, timeout);
+        }, timeout);
+    });
+};
+
+const delay = (timeout, message = "Delay After One") => {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            console.log(message);
+            resolve();
+        }, timeout);
+    });
+};
+
+const rollDice = () => {
+    // console.log(clickDisabled + " start");
+
+    // const timeout = 100;
+    // const start = Date.now();
+    return new Promise(resolve => {
+        let randomDice;
+
+        const animation = throwDiceAnimations();
+        animation
+            .then(() => {
+                randomDice = generateRandomDice();
+                console.log(randomDice + " throwed dice");
+            })
+            .then(() => {
+                if (randomDice === 1) {
+                    const delayAfterOne = delay(500);
+                    delayAfterOne.then(() => {
+                        resetRoundPoints();
+                        updateRoundPointsDivs();
+                        passTurn();
+                        resolve(randomDice);
+                    });
+                } else {
+                    addRoundPoints(randomDice);
+                    updateRoundPointsDivs();
+                    resolve(randomDice);
+                }
+            });
+    });
+
+    // const intervalID = setInterval(() => {
+    //     if ((Date.now() - start) / 1000 < (timeout * 6) / 1000) {
+    //         rollDiceAnimations();
+    //     } else {
+    //         clearInterval(intervalID);
+    //         const randomDice = generateRandomDice();
+
+    //         if (randomDice === 1) {
+    //             setTimeout(() => {
+    //                 resetRoundPoints();
+    //                 updateRoundPointsDivs();
+    //                 passTurn();
+    //                 return 1;
+    //             }, 500);
+    //         } else {
+    //             addRoundPoints(randomDice);
+    //             updateRoundPointsDivs();
+    //             return randomDice;
+    //         }
+    //         console.log(clickDisabled + " end");
+    //         // enableRoll();
+    //     }
+    // }, timeout);
 
     // const timerId = setTimeout(function run() {
     //     rollDiceAnimations();
@@ -233,11 +309,105 @@ const rollDice = () => {
     // }, timeout);
 };
 
+const aiThrow = throws => {
+    return new Promise((resolve, reject) => {
+        console.log(throws);
+        console.log(playerTwoRoundScore);
+        if (throws <= 4 && playerTwoRoundScore <= 15) {
+            disableRollClick();
+            const rollResultPromise = rollDice();
+            setTimeout(() => {
+                rollResultPromise.then(rollResult => {
+                    if (rollResult !== 1) {
+                        console.log("It's not a one");
+                        resolve(++throws);
+                    } else {
+                        console.log("It's ONE");
+                        reject(1);
+                    }
+                });
+            }, 550);
+        } else {
+            reject(0);
+        }
+    });
+};
+
+const aiTurn = throws => {
+    const ai_throw = aiThrow(throws);
+
+    ai_throw.then(
+        throws => {
+            const delayAI = delay(500, "Delay For Ai Throw");
+            delayAI.then(() => {
+                console.log("Wants to run again  " + throws);
+                aiTurn(throws);
+            });
+        },
+        code => {
+            enableRollClick();
+            if (code) {
+                console.log("ONE");
+            } else {
+                console.log("AI_HOLDS");
+                holdPoints();
+            }
+        }
+    );
+};
+
+const ai_Turn = throws => {
+    console.log(throws + " throws   =====");
+    disableRollClick();
+    const rollResult = rollDice();
+
+    // if (playerTwoRoundScore < 15 && throws < 4) {
+    setTimeout(() => {
+        console.log(rollResult + " ROLL RESULT )))))))))))))))))))");
+        if (rollResult !== 1) {
+            console.log(playerTwoRoundScore + " AI Scored----------------");
+            if (throws < 2) {
+                console.log("~~~~~~~~~~RECURSION~~~~~~~~~~~");
+                ai_Turn(++throws);
+            } else {
+                console.log("We are done here");
+            }
+        } else {
+            enableRollClick();
+            console.log("!!!!!!!!!!!!!! Rolled ONE !!!!!!!!!!");
+            return 1;
+        }
+    }, 550);
+
+    // enableRollClick();
+    // holdPoints();
+    //     // enableRoll();
+    //     // passTurn();
+};
+
+const rollDiceIfPossible = () => {
+    console.log(clickDisabled);
+    if (clickDisabled || !gameIsInProgress) {
+        return 1;
+    }
+    9;
+    disableRollClick();
+    rollDice();
+    enableRollClick();
+};
+
+const holdPointsIfPossible = () => {
+    if (!playerOneTurn && pickAI_radio.checked) {
+        return 1;
+    }
+    holdPoints();
+};
+
 newGame_but.addEventListener("click", startNewGame);
 
 stopGame_but.addEventListener("click", stopGame);
 
-hold_but.addEventListener("click", holdPoints);
+hold_but.addEventListener("click", holdPointsIfPossible);
 
-rollDice_but.addEventListener("click", rollDice);
-dice_img.addEventListener("click", rollDice);
+rollDice_but.addEventListener("click", rollDiceIfPossible);
+dice_img.addEventListener("click", rollDiceIfPossible);
