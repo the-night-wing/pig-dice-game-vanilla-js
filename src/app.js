@@ -79,6 +79,10 @@ const startNewGame = () => {
     onOffSidePicking();
     resetScores();
     onOffGameButtons();
+    playerOneName_p.innerHTML = "PLAYER 1";
+    playerTwoName_p.innerHTML = pickAI_radio.checked ? "AI" : "PLAYER 2";
+    playerOneName_p.classList.value = "";
+    playerTwoName_p.classList.value = "";
     playerOnePanel_div.classList = "player-1-panel active";
     playerTwoPanel_div.classList = "player-2-panel";
     playerOneTurn = true;
@@ -93,18 +97,21 @@ const startNewGame = () => {
     );
 };
 
-const stopGame = () => {
+const stopGame = (win = false) => {
     gameIsInProgress = !gameIsInProgress;
     onOffSidePicking();
-    resetScores();
     onOffGameButtons();
+    if (!win) {
+        resetScores();
+    }
     // playerOneTurn = true;
     stopGame_but.classList = stopGame_but.classList + " hide";
-    const hideIndex = newGame_but.classList.value.indexOf(" hide");
-    newGame_but.classList.value = newGame_but.classList.value.substring(
-        0,
-        hideIndex
-    );
+    newGame_but.classList.remove("hide");
+    // const hideIndex = newGame_but.classList.value.indexOf(" hide");
+    // newGame_but.classList.value = newGame_but.classList.value.substring(
+    //     0,
+    //     hideIndex
+    // );
 };
 
 const passTurn = () => {
@@ -124,6 +131,17 @@ const passTurn = () => {
     // console.log(pickAI_radio.checked);
 };
 
+const winner = player => {
+    if (player === 1) {
+        playerOneName_p.textContent = "WINNER!";
+        playerOneName_p.classList.add("winner");
+    } else {
+        playerTwoName_p.textContent = "WINNER!";
+        playerTwoName_p.classList.add("winner");
+    }
+    stopGame(true);
+};
+
 const updateRoundPointsDivs = () => {
     if (playerOneTurn) {
         playerOneRoundScore_div.innerHTML = playerOneRoundScore;
@@ -135,8 +153,18 @@ const updateRoundPointsDivs = () => {
 const updateTotalPointsDivs = () => {
     if (playerOneTurn) {
         playerOneTotalScore_div.innerHTML = playerOneTotalScore;
+        if (playerOneTotalScore >= 100) {
+            winner(1);
+            return true;
+        }
+        return false;
     } else {
         playerTwoTotalScore_div.innerHTML = playerTwoTotalScore;
+        if (playerTwoTotalScore >= 100) {
+            winner(2);
+            return true;
+        }
+        return false;
     }
 };
 
@@ -173,8 +201,10 @@ const holdPoints = () => {
     resetRoundPoints();
     updateRoundPointsDivs();
     addTotalPoints();
-    updateTotalPointsDivs();
-    passTurn();
+    const isThereWinner = updateTotalPointsDivs();
+    if (!isThereWinner) {
+        passTurn();
+    }
     // rollDiceAnimations();
 };
 
