@@ -1,194 +1,197 @@
+---
+---
+
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    background-image: linear-gradient(
-            rgba(62, 20, 20, 0.4),
-            rgba(62, 20, 20, 0.4)
-        ),
-        url(../img/back.jpg);
-    background-size: cover;
-    background-position: center;
-    font-family: Lato;
+  background-image: linear-gradient(
+      rgba(62, 20, 20, 0.4),
+      rgba(62, 20, 20, 0.4)
+    ),
+    url(../img/back.jpg);
+  background-size: cover;
+  background-position: center;
+  font-family: Lato;
 }
 
 .wrapper {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    margin: 80px 260px;
-    width: 1000px;
-    position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 80px 260px;
+  width: 1000px;
+  position: relative;
 }
 
 .player-1-panel,
 .player-2-panel {
-    background-color: white;
-    width: 500px;
-    padding: 100px;
-    & p {
-        font-size: 40px;
-        font-weight: 100;
-        text-align: center;
-    }
-    & p.winner {
-        color: red;
-    }
+  background-color: white;
+  width: 500px;
+  padding: 100px;
+  & p {
+    font-size: 40px;
+    font-weight: 100;
+    text-align: center;
+  }
+  & p.winner {
+    color: red;
+  }
 }
 
 .active {
-    position: relative;
-    background-color: rgb(245, 245, 245);
-    & p {
-        font-weight: 300;
-    }
-    & #player-1-total-score,
-    & #player-2-total-score {
-        font-weight: 300;
-    }
-    & #player-1-round-score,
-    & #player-2-round-score {
-        font-weight: 600;
-    }
-    & p::after {
-        content: "\2022";
-        font-size: 47px;
-        position: absolute;
-        color: #eb4d4d;
-        top: 15%;
-        right: 25%;
-    }
+  position: relative;
+  background-color: rgb(245, 245, 245);
+  & p {
+    font-weight: 300;
+  }
+  & #player-1-total-score,
+  & #player-2-total-score {
+    font-weight: 300;
+  }
+  & #player-1-round-score,
+  & #player-2-round-score {
+    font-weight: 600;
+  }
+  & p::after {
+    content: '\2022';
+    font-size: 47px;
+    position: absolute;
+    color: #eb4d4d;
+    top: 15%;
+    right: 25%;
+  }
 }
 
 #player-1-total-score,
 #player-2-total-score {
-    font-size: 80px;
-    color: #eb4d4d;
-    text-align: center;
-    font-weight: 100;
-    margin: 30px;
+  font-size: 80px;
+  color: #eb4d4d;
+  text-align: center;
+  font-weight: 100;
+  margin: 30px;
 }
 
 .player-1-round-box,
 .player-2-round-box {
-    // font-weight: 300;
-    background-color: #eb4d4d;
-    width: 125px;
-    height: 100px;
-    margin: 0 auto;
-    margin-top: 130px;
+  // font-weight: 300;
+  background-color: #eb4d4d;
+  width: 125px;
+  height: 100px;
+  margin: 0 auto;
+  margin-top: 130px;
 
-    & div {
-        text-align: center;
-        padding: 10px;
-    }
-    & #player-1-round-score,
-    & #player-2-round-score {
-        color: white;
-        font-size: 30px;
-        padding: 5px;
-    }
+  & div {
+    text-align: center;
+    padding: 10px;
+  }
+  & #player-1-round-score,
+  & #player-2-round-score {
+    color: white;
+    font-size: 30px;
+    padding: 5px;
+  }
 }
 
 .absolute {
-    position: absolute;
+  position: absolute;
 }
 
 .dice {
-    height: 100px;
-    width: 100px;
-    left: 45%;
-    top: 35%;
-    // -webkit-box-shadow: 0px 10px 30px -10px rgba(0, 0, 0, 0.75);
-    // -moz-box-shadow: 0px 10px 30px -10px rgba(0, 0, 0, 0.75);
-    // box-shadow: 0px 10px 30px -10px rgba(0, 0, 0, 0.4);
-    box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
+  height: 100px;
+  width: 100px;
+  left: 45%;
+  top: 35%;
+  // -webkit-box-shadow: 0px 10px 30px -10px rgba(0, 0, 0, 0.75);
+  // -moz-box-shadow: 0px 10px 30px -10px rgba(0, 0, 0, 0.75);
+  // box-shadow: 0px 10px 30px -10px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 }
 
 .btn {
-    font-weight: 300;
-    left: 41%;
-    background: none;
-    font-size: 25px;
-    border: none;
-    font-family: Lato;
-    cursor: pointer;
+  font-weight: 300;
+  left: 41%;
+  background: none;
+  font-size: 25px;
+  border: none;
+  font-family: Lato;
+  cursor: pointer;
 
-    &:hover {
-        font-weight: 600;
-        & i {
-            margin-right: 20px;
-            margin-left: -5px;
-        }
+  &:hover {
+    font-weight: 600;
+    & i {
+      margin-right: 20px;
+      margin-left: -5px;
     }
+  }
 }
 
 .checkboxes {
-    top: 5%;
-    left: 40%;
+  top: 5%;
+  left: 40%;
 }
 
-input[type="radio"] {
-    margin: 0 10px;
-    transition: all 0.3s ease;
-    & + span {
-        display: inline-block;
-        width: 50px;
-    }
-    &:checked + span {
-        font-weight: 600;
-    }
+input[type='radio'] {
+  margin: 0 10px;
+  transition: all 0.3s ease;
+  & + span {
+    display: inline-block;
+    width: 50px;
+  }
+  &:checked + span {
+    font-weight: 600;
+  }
 }
 
 label {
-    font-family: Lato;
-    margin: 0 10px;
-    font-size: 18px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    &:hover {
-        // font-weight: 600;
-        margin-right: 20px;
-    }
-    & input[type="radio"]:hover {
-        margin: 0 5px;
-        // margin-right: 5px;
-    }
+  font-family: Lato;
+  margin: 0 10px;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  &:hover {
+    // font-weight: 600;
+    margin-right: 20px;
+  }
+  & input[type='radio']:hover {
+    margin: 0 5px;
+    // margin-right: 5px;
+  }
 }
 
 #stop-game {
-    left: 45%;
-    top: 10%;
+  left: 45%;
+  top: 10%;
 }
 
 #new-game {
-    top: 10%;
+  top: 10%;
 }
 
 #roll-dice {
-    bottom: 25%;
+  bottom: 25%;
 }
 
 #hold {
-    bottom: 15%;
-    left: 44%;
+  bottom: 15%;
+  left: 44%;
 }
 
 i {
-    margin-right: 10px;
-    margin-left: 0;
-    margin-top: -4px;
-    vertical-align: -2px;
-    transition: all 0.2s ease;
-    color: #eb4d4d;
-    font-size: 30px;
-    // line-height: 1.5;
+  margin-right: 10px;
+  margin-left: 0;
+  margin-top: -4px;
+  vertical-align: -2px;
+  transition: all 0.2s ease;
+  color: #eb4d4d;
+  font-size: 30px;
+  // line-height: 1.5;
 }
 
 .hide {
-    display: none;
+  display: none;
 }
